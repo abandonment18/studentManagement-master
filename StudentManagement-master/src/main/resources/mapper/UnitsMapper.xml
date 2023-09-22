@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gfxy.master.mapper.UnitsMapper">
+
+    <select id="selectAllUnits" resultType="units">
+        select *
+        from Units
+    </select>
+
+    <select id="selectUnitsByTeacherId" resultType="units" parameterType="int">
+        select *
+        from Units
+        WHERE TeacherID = #{TeacherID}
+    </select>
+
+    <select id="searchUnitsByTeachersId" resultType="units" parameterType="int">
+        SELECT *
+        FROM Units
+        WHERE TeacherID like #{TeacherID}
+    </select>
+
+    <select id="searchUnitsByName" resultType="units" parameterType="String">
+        SELECT *
+        FROM Units
+        WHERE TeacherName LIKE CONCAT('%', #{TeacherName}, '%')
+    </select>
+
+    <delete id="deleteUnitsById" parameterType="int">
+        DELETE
+        FROM Units
+        WHERE id = #{id}
+    </delete>
+
+    <insert id="insertUnits" parameterType="units">
+        INSERT INTO units
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id!=0">id,</if>
+            <if test="UnitName!=null">UnitName,</if>
+            <if test="Phone!=null">Phone,</if>
+            <if test="TeacherID!=0">TeacherID,</if>
+            <if test="TeacherName!=null">TeacherName</if>
+        </trim>
+        <trim prefix="VALUES(" suffix=")" suffixOverrides=",">
+            <if test="id!=0">#{id},</if>
+            <if test="UnitName!=null">#{UnitName},</if>
+            <if test="Phone!=null">#{Phone},</if>
+            <if test="TeacherID!=0">#{TeacherID},</if>
+            <if test="TeacherName!=null">#{TeacherName}</if>
+        </trim>
+    </insert>
+
+    <update id="updateUnits" parameterType="units">
+        UPDATE Units
+        <set>
+            <if test="UnitName!=null">UnitName=#{UnitName},</if>
+            <if test="Phone!=null">Phone=#{Phone},</if>
+            <if test="TeacherID!=0">TeacherID=#{TeacherID},</if>
+            <if test="TeacherName!=null">TeacherName=#{TeacherName}</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+</mapper>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gfxy.master.mapper.HomeMapper">
+
+    <select id="selectCourseChooseNumber" resultType="studentCourse">
+        select s.CourseName, COUNT(s.CourseName) Number
+        from studentcourse s
+        GROUP BY s.CourseID
+    </select>
+
+</mapper>

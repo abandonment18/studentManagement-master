@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--<mapper namespace="com.developer.studentmanagesystem.mapper.StudentMapper">-->
+
+<!--    <resultMap id="info" type="com.developer.studentmanagesystem.domain.entity.Student">-->
+<!--        <id column="stunum" property="stuNum"/>-->
+<!--        <result column="stuname" property="stuName"/>-->
+<!--        <result column="class" property="clas"/>-->
+<!--        <collection property="scoreList" ofType="com.developer.studentmanagesystem.domain.entity.Score">-->
+<!--            <result property="courseName" column="coursename"/>-->
+<!--            <result property="score" column="score"/>-->
+<!--        </collection>-->
+<!--    </resultMap>-->
+
+
+<!--    <select id="selectStudentList" resultMap="info"-->
+<!--            parameterType="com.developer.studentmanagesystem.domain.entity.Student">-->
+<!--        SELECT stuinfo.stunum, stuinfo.stuname, stuinfo.class, courseinfo.coursename, stuscore.score-->
+<!--        FROM stuinfo-->
+<!--        JOIN stuscore ON stuinfo.stunum = stuscore.stunum-->
+<!--        JOIN courseinfo ON stuscore.coursenum = courseinfo.coursenum-->
+<!--        WHERE 1=1-->
+<!--        <if test="stuNum != null and !stuNum.isEmpty()">-->
+<!--            AND stuinfo.stunum = #{stuNum}-->
+<!--        </if>-->
+<!--        <if test="stuName != null and !stuName.isEmpty()">-->
+<!--            AND stuinfo.stuname LIKE CONCAT('%', #{stuName}, '%')-->
+<!--        </if>-->
+<!--        <if test="courseName != null and !courseName.isEmpty()">-->
+<!--            AND courseinfo.courseName LIKE CONCAT('%', #{courseName}, '%')-->
+<!--        </if>-->
+<!--        <if test="clas != null and !clas.isEmpty()">-->
+<!--            AND stuinfo.class LIKE CONCAT('%', #{clas}, '%')-->
+<!--        </if>-->
+<!--        <if test="stuName != null and !stuName.isEmpty()">-->
+<!--            AND stuinfo.stuname LIKE CONCAT('%', #{stuName}, '%')-->
+<!--        </if>-->
+<!--        ORDER BY-->
+<!--        <choose>-->
+<!--            <when test="orderBy == 'stuNum'">CAST(stuinfo.stunum AS INT) ASC</when>-->
+<!--            <when test="orderBy == 'score'">CAST(stuscore.score AS INT) DESC</when>-->
+<!--            <otherwise>stuinfo.stunum</otherwise>-->
+<!--        </choose>-->
+<!--    </select>-->
+
+<!--    <insert id="insertStudent" parameterType="com.developer.studentmanagesystem.domain.entity.StudentScore">-->
+<!--        INSERT INTO stuinfo(stuname, stunum, sex, class, [date], phonenum, major)-->
+<!--        VALUES(#{studentName}, #{studentNum}, #{sex}, #{clas}, #{date}, #{phoneNum}, #{major});-->
+
+
+<!--        <foreach collection="scores" item="item">-->
+<!--            INSERT INTO stuscore(stunum, coursenum, score)-->
+<!--            VALUES(#{studentNum}, (SELECT coursenum FROM courseinfo WHERE coursename = #{item.courseName}),-->
+<!--            #{item.score});-->
+<!--        </foreach>-->
+<!--    </insert>-->
+
+
+<!--    <update id="updateStudent" parameterType="com.developer.studentmanagesystem.domain.entity.StudentScore">-->
+<!--        UPDATE stuinfo-->
+<!--        <set>-->
+<!--            <if test="studentNum!= null">stunum = #{studentNum},</if>-->
+<!--            <if test="studentName != null">stuname = #{studentName},</if>-->
+<!--            <if test="sex != null">sex = #{sex},</if>-->
+<!--            <if test="clas != null">class = #{clas},</if>-->
+<!--            <if test="date != null">[date] = #{date},</if>-->
+<!--            <if test="phoneNum != null">phonenum = #{phoneNum},</if>-->
+<!--            <if test="major != null">major = #{major},</if>-->
+<!--        </set>-->
+<!--        WHERE stunum = #{studentNum};-->
+
+<!--        DELETE FROM stuscore WHERE stunum = #{studentNum};-->
+
+<!--        <foreach collection="scores" item="item" separator=";">-->
+<!--            INSERT INTO stuscore(stunum, coursenum, score)-->
+<!--            VALUES(#{studentNum}, (SELECT coursenum FROM courseinfo WHERE coursename = #{item.courseName}),-->
+<!--            #{item.score})-->
+<!--        </foreach>-->
+<!--    </update>-->
+
+<!--    <delete id="deleteStudent" parameterType="com.developer.studentmanagesystem.domain.entity.StudentScore">-->
+<!--        DELETE-->
+<!--        FROM stuinfo-->
+<!--        WHERE stunum = #{studentNum};-->
+<!--        DELETE-->
+<!--        FROM stuscore-->
+<!--        WHERE stunum = #{studentNum};-->
+<!--    </delete>-->
+
+<!--</mapper>-->
+<mapper namespace="com.gfxy.master.mapper.TestMapper">
+    <insert id="insertTeachers" parameterType="teachers">
+        INSERT INTO Teachers (TeacherID, Name, Gender, Title, Department)
+        VALUES (#{TeacherID}, #{Name}, #{Gender}, #{Title}, #{Department})
+    </insert>
+
+    <update id="updateTeachers">
+        UPDATE Teachers
+        SET TeacherID=#{TeacherID},
+            Name=#{Name},
+            Gender=#{Gender},
+            Title=#{Title},
+            Department=#{Department}
+        WHERE id = #{id}
+    </update>
+</mapper>

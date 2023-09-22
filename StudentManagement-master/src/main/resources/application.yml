@@ -1,0 +1,22 @@
+server:
+  port: 8888
+mybatis:
+  # 搜索指定包的别名
+  type-aliases-package: com.gfxy.master.vo
+  # 配置 mapper 的扫描
+  mapper-locations: classpath:mapper/*.xml
+  # 加载全局的配置文件
+  config-location: classpath:mybatis/mybatis.xml
+spring:
+  profiles:
+    active: druid
+
+#  # 服务模块
+#  devtools:
+#    restart:
+#      enabled: true  #设置开启热部署
+#      additional-paths: src/main/java #重启目录
+#      exclude: WEB-INF/**
+#  freemarker:
+#    cache: false    #页面不加载缓存，修改即时生效
+debug: false

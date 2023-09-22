@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gfxy.master.mapper.StudentCourseMapper">
+
+    <select id="selectAllStudentCourse" resultType="studentCourse">
+        select *
+        from StudentCourse
+    </select>
+
+    <select id="selectStudentCourseById" resultType="studentCourse" parameterType="int">
+        SELECT *
+        FROM studentcourse
+        WHERE StudentID = #{id}
+    </select>
+
+    <select id="selectStudentCourseByStudentId" resultType="studentCourse" parameterType="int">
+        select *
+        from StudentCourse
+        WHERE StudentID = #{StudentID}
+    </select>
+
+    <select id="searchStudentCourseByStudentId" resultType="studentCourse" parameterType="int">
+        SELECT *
+        FROM StudentCourse
+        WHERE StudentID like #{StudentID}
+    </select>
+
+    <select id="searchStudentCourseByStudentName" resultType="studentCourse" parameterType="String">
+        SELECT *
+        FROM StudentCourse
+        WHERE StudentName LIKE CONCAT('%', #{name}, '%')
+    </select>
+
+    <select id="searchStudentCourseByCourseName" resultType="studentCourse" parameterType="String">
+        SELECT *
+        FROM StudentCourse
+        WHERE CourseName LIKE CONCAT('%', #{name}, '%')
+    </select>
+
+    <delete id="deleteStudentCourseById" parameterType="int">
+        DELETE
+        FROM StudentCourse
+        WHERE id = #{id}
+    </delete>
+
+    <insert id="insertStudentCourse" parameterType="studentCourse">
+        INSERT INTO StudentCourse
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id!=0">id,</if>
+            <if test="StudentID!=0">StudentID,</if>
+            <if test="CourseID!=0">CourseID,</if>
+            <if test="StudentName!=null">StudentName,</if>
+            <if test="CourseName!=null">CourseName,</if>
+            <if test="CourseGrade!=0">CourseGrade</if>
+        </trim>
+        <trim prefix="VALUES(" suffix=")" suffixOverrides=",">
+            <if test="id!=0">#{id},</if>
+            <if test="StudentID!=0">#{StudentID},</if>
+            <if test="CourseID!=0">#{CourseID},</if>
+            <if test="StudentName!=null">#{StudentName},</if>
+            <if test="CourseName!=null">#{CourseName},</if>
+            <if test="CourseGrade!=0">#{CourseGrade}</if>
+        </trim>
+    </insert>
+
+    <update id="updateStudentCourse" parameterType="studentCourse">
+        UPDATE StudentCourse
+        <set>
+            <if test="StudentID!=0">StudentID=#{StudentID},</if>
+            <if test="CourseID!=0">CourseID=#{CourseID},</if>
+            <if test="StudentName!=null">StudentName=#{StudentName},</if>
+            <if test="CourseName!=null">CourseName=#{CourseName},</if>
+            <if test="CourseGrade!=0">CourseGrade=#{CourseGrade}</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+</mapper>

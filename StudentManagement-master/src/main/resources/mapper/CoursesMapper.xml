@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gfxy.master.mapper.CoursesMapper">
+
+    <!--    查询所有课程-->
+    <select id="selectAllCourses" resultType="courses">
+        select *
+        from Courses
+    </select>
+
+    <select id="selectCoursesByCoursesId" parameterType="int" resultType="courses">
+        SELECT *
+        FROM Courses
+        WHERE CourseID = #{CourseID}
+    </select>
+
+    <select id="selectCoursesById" resultType="courses">
+        SELECT *
+        FROM Courses
+        WHERE id = #{id}
+    </select>
+
+    <!--    根据课程编号搜索-->
+    <select id="searchByCoursesId" resultType="courses" parameterType="int">
+        SELECT *
+        FROM Courses
+        WHERE CourseID like #{CourseID}
+    </select>
+
+
+    <!--    根据id删除-->
+    <delete id="deleteCoursesById" parameterType="int">
+        DELETE
+        FROM Courses
+        WHERE id = #{id}
+    </delete>
+
+    <!--    插入-->
+    <insert id="insertCourses" parameterType="courses">
+        INSERT INTO Courses
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id!=0">id,</if>
+            <if test="CourseName!=null">CourseName,</if>
+            <if test="DepartmentOffering!=null">DepartmentOffering,</if>
+            <if test="TeacherID!=0">TeacherID,</if>
+            <if test="CourseID!=0">CourseID</if>
+        </trim>
+        <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+            <if test="id!=0">#{id},</if>
+            <if test="CourseName!=null">#{CourseName},</if>
+            <if test="DepartmentOffering!=null">#{DepartmentOffering},</if>
+            <if test="TeacherID!=0">#{TeacherID},</if>
+            <if test="CourseID!=0">#{CourseID}</if>
+        </trim>
+    </insert>
+
+    <!--    修改-->
+    <update id="updateCourses" parameterType="courses">
+        UPDATE Courses
+        <set>
+            <if test="CourseName!=null">CourseName=#{CourseName},</if>
+            <if test="DepartmentOffering!=null">DepartmentOffering=#{DepartmentOffering},</if>
+            <if test="TeacherID!=0">TeacherID=#{TeacherID},</if>
+            <if test="CourseID!=0">CourseID = #{CourseID}</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+</mapper>

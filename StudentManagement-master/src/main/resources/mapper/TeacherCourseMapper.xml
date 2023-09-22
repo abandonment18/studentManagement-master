@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gfxy.master.mapper.TeacherCourseMapper">
+
+    <select id="selectAllTeacherCourse" resultType="teacherCourse">
+        select *
+        from TeacherCourse
+    </select>
+
+    <select id="selectTeacherCourseByTeacherId" resultType="teacherCourse" parameterType="int">
+        select *
+        from TeacherCourse
+        WHERE TeacherID = #{TeacherID}
+    </select>
+
+    <select id="searchTeacherCourseByTeachersId" resultType="teacherCourse" parameterType="int">
+        SELECT *
+        FROM TeacherCourse
+        WHERE TeacherID like #{TeacherID}
+    </select>
+
+    <select id="searchTeacherCourseByCourseName" resultType="teacherCourse" parameterType="String">
+        SELECT *
+        FROM TeacherCourse
+        WHERE CourseName LIKE CONCAT('%', #{name}, '%')
+    </select>
+
+    <select id="searchTeacherCourseByTeacherName" resultType="teacherCourse" parameterType="String">
+        SELECT *
+        FROM TeacherCourse
+        WHERE TeacherName LIKE CONCAT('%', #{name}, '%')
+    </select>
+
+    <delete id="deleteTeacherCourseById" parameterType="int">
+        DELETE
+        FROM TeacherCourse
+        WHERE id = #{id}
+    </delete>
+
+    <insert id="insertTeacherCourse" parameterType="teacherCourse">
+        INSERT INTO TeacherCourse
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id!=0">id,</if>
+            <if test="TeacherID!=0">TeacherID,</if>
+            <if test="CourseID!=0">CourseID,</if>
+            <if test="TeacherName!=null">TeacherName,</if>
+            <if test="CourseName!=null">CourseName,</if>
+            <if test="CourseCredit!=0">CourseCredit</if>
+        </trim>
+        <trim prefix="VALUES(" suffix=")" suffixOverrides=",">
+            <if test="id!=0">#{id},</if>
+            <if test="TeacherID!=0">#{TeacherID},</if>
+            <if test="CourseID!=0">#{CourseID},</if>
+            <if test="TeacherName!=null">#{TeacherName},</if>
+            <if test="CourseName!=null">#{CourseName},</if>
+            <if test="CourseCredit!=0">#{CourseCredit}</if>
+        </trim>
+    </insert>
+
+    <update id="updateTeacherCourse" parameterType="teacherCourse">
+        UPDATE TeacherCourse
+        <set>
+            <if test="id!=0">id=#{id},</if>
+            <if test="TeacherID!=0">TeacherID=#{TeacherID},</if>
+            <if test="CourseID!=0">CourseID=#{CourseID},</if>
+            <if test="TeacherName!=null">TeacherName=#{TeacherName},</if>
+            <if test="CourseName!=null">CourseName=#{CourseName},</if>
+            <if test="CourseCredit!=0">CourseCredit=#{CourseCredit}</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+</mapper>

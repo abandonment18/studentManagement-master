@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gfxy.master.mapper.StudentsMapper">
+
+    <select id="selectAllStudents" resultType="students">
+        select *
+        from Students
+    </select>
+
+    <select id="selectStudentsByStudentId" resultType="students" parameterType="int">
+        select *
+        from Students
+        WHERE StudentID = #{StudentID}
+    </select>
+
+    <select id="searchByStudentsId" resultType="students" parameterType="int">
+        SELECT *
+        FROM Students
+        WHERE StudentID like #{StudentID}
+    </select>
+
+    <select id="searchStudentsByName" resultType="students" parameterType="String">
+        SELECT *
+        FROM Students s
+        WHERE s.Name LIKE CONCAT('%', #{name}, '%')
+    </select>
+
+    <delete id="deleteStudentById" parameterType="int">
+        DELETE
+        FROM Students
+        WHERE id = #{id}
+    </delete>
+
+    <insert id="insertStudents" parameterType="students">
+        INSERT INTO Students
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id!=0">id,</if>
+            <if test="StudentID!=0">StudentID,</if>
+            <if test="Name!=null">`Name`,</if>
+            <if test="Gender!=null">Gender,</if>
+            <if test="Age!=0">Age,</if>
+            <if test="Department!=null">Department</if>
+        </trim>
+        <trim prefix="VALUES(" suffix=")" suffixOverrides=",">
+            <if test="id!=0">#{id},</if>
+            <if test="StudentID!=0">#{StudentID},</if>
+            <if test="Name!=null">#{Name},</if>
+            <if test="Gender!=null">#{Gender},</if>
+            <if test="Age!=0">#{Age},</if>
+            <if test="Department!=null">#{Department}</if>
+        </trim>
+    </insert>
+
+    <update id="updateStudents" parameterType="students">
+        UPDATE Students
+        <set>
+            <if test="StudentID!=0">StudentID=#{StudentID},</if>
+            <if test="Name!=null">`Name`=#{Name},</if>
+            <if test="Gender!=null">Gender=#{Gender},</if>
+            <if test="Age!=0">Age=#{Age},</if>
+            <if test="Department!=null">Department=#{Department}</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+</mapper>

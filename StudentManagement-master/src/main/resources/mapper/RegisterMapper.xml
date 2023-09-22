@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gfxy.master.mapper.RegisterMapper">
+
+    <insert id="insertStudents" parameterType="register">
+        INSERT INTO students (id, StudentID, Department, `Name`, Gender, Age)
+        values (#{id}, #{StudentID}, #{Department}, #{Name}, #{Gender}, #{Age});
+
+    </insert>
+    <insert id="insertTeachers" parameterType="register">
+        insert into teachers (id, TeacherID, `Name`, Gender, Title, Department)
+        values (#{id}, #{TeacherID}, #{Name}, #{Gender}, #{Title}, #{Department});
+    </insert>
+    <insert id="insertUser" parameterType="register">
+        INSERT INTO sys_user (username, password, userType, Gender)
+        values (#{username}, #{password}, #{userType}, #{Gender});
+    </insert>
+
+
+    <resultMap id="userRole" type="userRole">
+        <result property="userId" column="user_id"></result>
+        <result property="roleId" column="role_id"></result>
+    </resultMap>
+    <insert id="insertUserRole" parameterType="register">
+        INSERT INTO sys_user_role (UserId, RoleId)
+        values (#{UserId}, #{RoleId});
+    </insert>
+</mapper>

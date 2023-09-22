@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gfxy.master.mapper.PersonalInfoMapper">
+
+    <!--    查询用户权限-->
+    <select id="selectPersonalInfoById" resultType="int">
+        SELECT RoleId
+        FROM sys_user_role
+        WHERE UserId = #{UserId}
+    </select>
+
+    <select id="selectTeachersById" resultType="personalInfo" parameterType="int">
+        SELECT u.id,
+               u.UserName,
+               u.NickName,
+               u.Email,
+               u.PhoneNumber,
+               u.Gender,
+               u.Avatar,
+               u.UserType,
+               t.TeacherID,
+               t.`Name`,
+               t.Title,
+               t.Department
+        FROM sys_user u
+                 LEFT JOIN teachers t ON u.id = t.id
+        WHERE u.id = #{id}
+    </select>
+
+    <select id="selectStudentsById" resultType="personalInfo" parameterType="int">
+        SELECT u.id,
+               u.UserName,
+               u.NickName,
+               u.Email,
+               u.PhoneNumber,
+               u.Gender,
+               u.Avatar,
+               u.UserType,
+               s.StudentID,
+               s.Department,
+               s.`Name`,
+               s.Age
+        FROM sys_user u
+                 LEFT JOIN students s ON u.id = s.id
+        WHERE u.id = #{id}
+    </select>
+
+    <update id="updateStudents" parameterType="personalInfo">
+        UPDATE students
+        <set>
+            <if test="Name!=null">`Name` = #{Name},</if>
+            <if test="Age!=0">Age = #{Age},</if>
+            <if test="Department!=null">Department = #{Department},</if>
+            <if test="Gender!=null">Gender = #{Gender}</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <update id="updateTeachers" parameterType="personalInfo">
+        UPDATE teachers
+        <set>
+            <if test="Name!=null">`Name` = #{Name},</if>
+            <if test="Title!=null">Title = #{Title},</if>
+            <if test="Department!=null">Department = #{Department},</if>
+            <if test="Gender!=null">Gender = #{Gender}</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <update id="updateUser" parameterType="personalInfo">
+        UPDATE sys_user
+        <set>
+            <if test="NickName!=null">NickName = #{NickName},</if>
+            <if test="Email!=null">Email = #{Email},</if>
+            <if test="PhoneNumber!=null">PhoneNumber = #{PhoneNumber},</if>
+            <if test="Gender!=null">Gender = #{Gender}</if>
+        </set>
+        WHERE id = #{id};
+    </update>
+</mapper>
