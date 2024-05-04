@@ -1,42 +1,24 @@
 package com.gfxy.master.vo;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
-/**
- * 菜单表(Menu)实体类
- *
- * @author makejava
- * @since 2021-11-24 15:30:08
- */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonInclude(JsonInclude.Include.NON_NULL)
-public class Menu implements Serializable {
-    private static final long serialVersionUID = -54979041104113736L;
-
+public class ChildMenu {
     private Long id;
     /**
      * 父菜单id
      */
     private Long parentId;
     /**
-     * token
-     */
-    private String token;
-    /**
      * 菜单名
      */
     private String menuName;
-
-    private List<ChildMenu> childMenus;
     /**
      * 路由地址
      */

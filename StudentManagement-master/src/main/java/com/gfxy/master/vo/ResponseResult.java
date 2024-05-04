@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 /**
  * 返回结果类型字段
  *
- * @Author 三更  B站： https://space.bilibili.com/663528522
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ResponseResult<T> {

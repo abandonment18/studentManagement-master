@@ -7,12 +7,15 @@ import com.gfxy.master.vo.Teachers;
 import com.gfxy.master.vo.Units;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Tag(name = "UnitsController", description = "教师单位管理")
 @RestController
 public class UnitsController {
 
@@ -30,6 +33,7 @@ public class UnitsController {
      * @param pageSize:每页要显示几条数据,默认为 5
      * @return
      */
+    @Operation(summary = "分页查询教师单位", description = "分页查询教师单位")
     @GetMapping("/admin/units")
     @PreAuthorize("hasAnyAuthority('system:dept:list','system:student:list')")
     public ResponseResult selectByPage(@RequestParam(defaultValue = "1") Integer pageNum, @RequestParam(defaultValue = "5") Integer pageSize) {
@@ -56,7 +60,8 @@ public class UnitsController {
      * @param teacherId
      * @return
      */
-    @PostMapping("/admin/searchUnitsByTeacherId")
+    @Operation(summary = "根据 TeachersId 进行搜索匹配", description = "根据 TeachersId 进行搜索匹配")
+    @GetMapping("/admin/searchUnitsByTeacherId")
     @PreAuthorize("hasAnyAuthority('system:dept:list','system:student:list')")
     public ResponseResult searchUnitsByTeacherId(@RequestParam("teachersId") int teacherId) {
 
@@ -69,7 +74,8 @@ public class UnitsController {
      * @param name
      * @return
      */
-    @PostMapping("/admin/searchUnitsByName")
+    @Operation(summary = "根据 name 进行模糊搜索", description = "根据 name 进行模糊搜索")
+    @GetMapping("/admin/searchUnitsByName")
     @PreAuthorize("hasAnyAuthority('system:dept:list','system:student:list')")
     public ResponseResult searchUnitsByName(@RequestParam("name") String name) {
 
@@ -82,7 +88,8 @@ public class UnitsController {
      * @param id
      * @return
      */
-    @PostMapping("/admin/deleteUnitsById")
+    @Operation(summary = "根据 id 删除", description = "根据 id 删除")
+    @GetMapping("/admin/deleteUnitsById")
     @PreAuthorize("hasAuthority('system:dept:list')")
     public ResponseResult deleteUnitsById(@RequestParam("id") int id) {
 
@@ -95,6 +102,7 @@ public class UnitsController {
      * @param units
      * @return
      */
+    @Operation(summary = "新增教师单位", description = "新增教师单位")
     @PostMapping("/admin/insertUnits")
     @PreAuthorize("hasAuthority('system:dept:list')")
     public ResponseResult insertUnits(@RequestBody Units units) {
@@ -121,6 +129,7 @@ public class UnitsController {
      * @param units
      * @return
      */
+    @Operation(summary = "修改教师单位", description = "修改教师单位")
     @PostMapping("/admin/updateUnits")
     @PreAuthorize("hasAuthority('system:dept:list')")
     public ResponseResult updateUnits(@RequestBody Units units) {

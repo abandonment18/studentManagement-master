@@ -6,12 +6,15 @@ import com.gfxy.master.vo.ResponseResult;
 import com.gfxy.master.vo.Students;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Tag(name = "StudentsController", description = "学生管理")
 @RestController
 public class StudentsController {
 
@@ -26,6 +29,7 @@ public class StudentsController {
      * @param pageSize:每页要显示几条数据,默认为 5
      * @return
      */
+    @Operation(summary = "分页查询学生", description = "分页查询学生")
     @GetMapping("/admin/students")
     @PreAuthorize("hasAnyAuthority('system:dept:list','system:student:list')")
     public ResponseResult selectByPage(@RequestParam(defaultValue = "1") Integer pageNum, @RequestParam(defaultValue = "5") Integer pageSize) {
@@ -52,7 +56,8 @@ public class StudentsController {
      * @param studentsId
      * @return
      */
-    @PostMapping("/admin/searchByStudentsId")
+    @Operation(summary = "根据 studentsId 进行搜索匹配", description = "根据 studentsId 进行搜索匹配")
+    @GetMapping("/admin/searchByStudentsId")
     @PreAuthorize("hasAnyAuthority('system:dept:list','system:student:list')")
     public ResponseResult searchByStudentsId(@RequestParam("studentsId") int studentsId) {
 
@@ -65,7 +70,8 @@ public class StudentsController {
      * @param name
      * @return
      */
-    @PostMapping("/admin/searchStudentsByName")
+    @Operation(summary = "根据 name 进行模糊搜索", description = "根据 name 进行模糊搜索")
+    @GetMapping("/admin/searchStudentsByName")
     @PreAuthorize("hasAnyAuthority('system:dept:list','system:student:list')")
     public ResponseResult searchStudentsByName(@RequestParam("name") String name) {
 
@@ -78,7 +84,8 @@ public class StudentsController {
      * @param id
      * @return
      */
-    @PostMapping("/admin/deleteStudentsById")
+    @Operation(summary = "根据 id 删除", description = "根据 id 删除")
+    @GetMapping("/admin/deleteStudentsById")
     @PreAuthorize("hasAuthority('system:dept:list')")
     public ResponseResult deleteStudentsById(@RequestParam("id") int id) {
 
@@ -91,6 +98,7 @@ public class StudentsController {
      * @param students
      * @return
      */
+    @Operation(summary = "新增学生", description = "新增学生")
     @PostMapping("/admin/insertStudents")
     @PreAuthorize("hasAuthority('system:dept:list')")
     public ResponseResult insertStudents(@RequestBody Students students) {
@@ -108,6 +116,7 @@ public class StudentsController {
      * @param students
      * @return
      */
+    @Operation(summary = "修改学生", description = "修改学生")
     @PostMapping("/admin/updateStudents")
     @PreAuthorize("hasAuthority('system:dept:list')")
     public ResponseResult updateStudents(@RequestBody Students students) {

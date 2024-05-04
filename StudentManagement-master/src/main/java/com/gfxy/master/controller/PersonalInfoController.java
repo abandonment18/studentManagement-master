@@ -5,6 +5,8 @@ import com.gfxy.master.utils.JwtUtil;
 import com.gfxy.master.vo.PersonalInfo;
 import com.gfxy.master.vo.ResponseResult;
 import io.jsonwebtoken.Claims;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 
+@Tag(name = "PersonalInfoController", description = "用户信息管理")
 @RestController
 public class PersonalInfoController {
 
@@ -25,6 +28,7 @@ public class PersonalInfoController {
      * @param request
      * @return
      */
+    @Operation(summary = "查询用户个人信息", description = "查询用户个人信息")
     @PostMapping("/admin/selectPersonInfo")
     @PreAuthorize("hasAnyAuthority('system:dept:list','system:student:list')")
     public ResponseResult selectPersonInfo(HttpServletRequest request) {
@@ -62,6 +66,7 @@ public class PersonalInfoController {
      * @param personalInfo
      * @return
      */
+    @Operation(summary = "修改用户个人信息", description = "修改用户个人信息")
     @PostMapping("/admin/updatePersonInfo")
     @PreAuthorize("hasAnyAuthority('system:dept:list','system:student:list')")
     public ResponseResult updatePersonInfo(@RequestBody PersonalInfo personalInfo) {

@@ -6,41 +6,41 @@
 
     <select id="selectAllTeachers" resultType="teachers">
         select *
-        from Teachers
+        from teachers
     </select>
 
     <select id="selectTeachersByTeacherId" resultType="teachers" parameterType="int">
         select *
-        from Teachers
+        from teachers
         WHERE TeacherID = #{TeacherID}
     </select>
 
     <select id="selectListTeachersByTeacherId" parameterType="int" resultType="teachers">
         SELECT *
-        FROM Teachers
+        FROM teachers
         WHERE TeacherID = #{TeacherID}
     </select>
 
     <select id="searchByTeachersId" resultType="teachers" parameterType="int">
         SELECT *
-        FROM Teachers
+        FROM teachers
         WHERE TeacherID like #{TeacherID}
     </select>
 
     <select id="searchByName" resultType="teachers" parameterType="String">
         SELECT *
-        FROM Teachers t
+        FROM teachers t
         WHERE t.Name LIKE CONCAT('%', #{name}, '%')
     </select>
 
     <delete id="deleteTeacherById" parameterType="int">
         DELETE
-        FROM Teachers
+        FROM teachers
         WHERE id = #{id}
     </delete>
 
     <insert id="insertTeachers" parameterType="teachers">
-        INSERT INTO Teachers
+        INSERT INTO teachers
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != 0">id,</if>
             <if test="TeacherID != 0">TeacherID,</if>
@@ -60,7 +60,7 @@
     </insert>
 
     <update id="updateTeachers" parameterType="teachers">
-        UPDATE Teachers
+        UPDATE teachers
         <set>
             <if test="TeacherID != 0">TeacherID = #{TeacherID},</if>
             <if test="Name != null">`Name` = #{Name},</if>

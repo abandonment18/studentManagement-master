@@ -14,8 +14,25 @@
         values (#{id}, #{TeacherID}, #{Name}, #{Gender}, #{Title}, #{Department});
     </insert>
     <insert id="insertUser" parameterType="register">
-        INSERT INTO sys_user (username, password, userType, Gender)
-        values (#{username}, #{password}, #{userType}, #{Gender});
+        INSERT INTO sys_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="NickName != null">NickName,</if>
+            <if test="username != null">username,</if>
+            <if test="password != null">password,</if>
+            <if test="userType != null">userType,</if>
+            <if test="Gender != null">Gender,</if>
+            <if test="PhoneNumber != null">PhoneNumber,</if>
+            <if test="Email != null">Email,</if>
+        </trim>
+        <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+            <if test="NickName != null">#{NickName},</if>
+            <if test="username != null">#{username},</if>
+            <if test="password != null">#{password},</if>
+            <if test="userType != null">#{userType},</if>
+            <if test="Gender != null">#{Gender},</if>
+            <if test="PhoneNumber != null">#{PhoneNumber},</if>
+            <if test="Email != null">#{Email},</if>
+        </trim>
     </insert>
 
 

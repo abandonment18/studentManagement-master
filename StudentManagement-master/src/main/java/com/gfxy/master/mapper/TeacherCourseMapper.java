@@ -1,5 +1,6 @@
 package com.gfxy.master.mapper;
 
+import com.gfxy.master.vo.Courses;
 import com.gfxy.master.vo.TeacherCourse;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -14,6 +15,14 @@ public interface TeacherCourseMapper {
      * @return
      */
     List<TeacherCourse> selectAllTeacherCourse();
+
+    /**
+     * 根据 TeacherId，CourseId 查询教教师选课信息
+     *
+     * @param courses
+     * @return
+     */
+    TeacherCourse selectTeacherCourseByTeacherIdAndCourseId(Courses courses);
 
     /**
      * 根据 TeacherId 查询

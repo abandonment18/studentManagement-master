@@ -6,35 +6,35 @@
 
     <select id="selectAllStudents" resultType="students">
         select *
-        from Students
+        from students
     </select>
 
     <select id="selectStudentsByStudentId" resultType="students" parameterType="int">
         select *
-        from Students
+        from students
         WHERE StudentID = #{StudentID}
     </select>
 
     <select id="searchByStudentsId" resultType="students" parameterType="int">
         SELECT *
-        FROM Students
+        FROM students
         WHERE StudentID like #{StudentID}
     </select>
 
     <select id="searchStudentsByName" resultType="students" parameterType="String">
         SELECT *
-        FROM Students s
+        FROM students s
         WHERE s.Name LIKE CONCAT('%', #{name}, '%')
     </select>
 
     <delete id="deleteStudentById" parameterType="int">
         DELETE
-        FROM Students
+        FROM students
         WHERE id = #{id}
     </delete>
 
     <insert id="insertStudents" parameterType="students">
-        INSERT INTO Students
+        INSERT INTO students
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id!=0">id,</if>
             <if test="StudentID!=0">StudentID,</if>
@@ -54,7 +54,7 @@
     </insert>
 
     <update id="updateStudents" parameterType="students">
-        UPDATE Students
+        UPDATE students
         <set>
             <if test="StudentID!=0">StudentID=#{StudentID},</if>
             <if test="Name!=null">`Name`=#{Name},</if>
@@ -64,4 +64,9 @@
         </set>
         WHERE id = #{id}
     </update>
+
+    <select id="selectStudentCount" resultType="int">
+        SELECT COUNT(*) AS count
+        FROM students
+    </select>
 </mapper>

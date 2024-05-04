@@ -6,41 +6,48 @@
 
     <select id="selectAllTeacherCourse" resultType="teacherCourse">
         select *
-        from TeacherCourse
+        from teachercourse
+    </select>
+
+    <select id="selectTeacherCourseByTeacherIdAndCourseId" parameterType="courses" resultType="teacherCourse">
+        select *
+        from teachercourse
+        where TeacherID = #{TeacherID}
+          and CourseID = #{CourseID}
     </select>
 
     <select id="selectTeacherCourseByTeacherId" resultType="teacherCourse" parameterType="int">
         select *
-        from TeacherCourse
+        from teachercourse
         WHERE TeacherID = #{TeacherID}
     </select>
 
     <select id="searchTeacherCourseByTeachersId" resultType="teacherCourse" parameterType="int">
         SELECT *
-        FROM TeacherCourse
+        FROM teachercourse
         WHERE TeacherID like #{TeacherID}
     </select>
 
     <select id="searchTeacherCourseByCourseName" resultType="teacherCourse" parameterType="String">
         SELECT *
-        FROM TeacherCourse
+        FROM teachercourse
         WHERE CourseName LIKE CONCAT('%', #{name}, '%')
     </select>
 
     <select id="searchTeacherCourseByTeacherName" resultType="teacherCourse" parameterType="String">
         SELECT *
-        FROM TeacherCourse
+        FROM teachercourse
         WHERE TeacherName LIKE CONCAT('%', #{name}, '%')
     </select>
 
     <delete id="deleteTeacherCourseById" parameterType="int">
         DELETE
-        FROM TeacherCourse
+        FROM teachercourse
         WHERE id = #{id}
     </delete>
 
     <insert id="insertTeacherCourse" parameterType="teacherCourse">
-        INSERT INTO TeacherCourse
+        INSERT INTO teachercourse
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id!=0">id,</if>
             <if test="TeacherID!=0">TeacherID,</if>
@@ -60,7 +67,7 @@
     </insert>
 
     <update id="updateTeacherCourse" parameterType="teacherCourse">
-        UPDATE TeacherCourse
+        UPDATE teachercourse
         <set>
             <if test="id!=0">id=#{id},</if>
             <if test="TeacherID!=0">TeacherID=#{TeacherID},</if>

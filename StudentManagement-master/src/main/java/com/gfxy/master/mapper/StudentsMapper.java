@@ -60,4 +60,11 @@ public interface StudentsMapper {
      * @return
      */
     int updateStudents(Students students);
+
+    /**
+     * 查询所有学生总数
+     *
+     * @return
+     */
+    int selectStudentCount();
 }

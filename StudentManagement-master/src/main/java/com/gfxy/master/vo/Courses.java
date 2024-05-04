@@ -34,4 +34,9 @@ public class Courses {
      */
     private int TeacherID;
 
+    /**
+     * 选课人数的总数
+     */
+    private int Count;
+
 }

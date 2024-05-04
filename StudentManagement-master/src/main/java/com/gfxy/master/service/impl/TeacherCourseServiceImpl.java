@@ -6,12 +6,16 @@ import com.gfxy.master.mapper.TeachersMapper;
 import com.gfxy.master.service.TeacherCourseService;
 import com.gfxy.master.vo.Courses;
 import com.gfxy.master.vo.TeacherCourse;
+import com.gfxy.master.vo.Teachers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
+@Transactional
 public class TeacherCourseServiceImpl implements TeacherCourseService {
 
     @Autowired
@@ -74,15 +78,24 @@ public class TeacherCourseServiceImpl implements TeacherCourseService {
     @Override
     public int updateTeacherCourse(TeacherCourse teacherCourse) {
 
-        // 修改教师授课（TeacherCourse 表）信息 并修改课程（Courses 表）信息
+        Teachers teachers = teachersMapper.selectTeachersByTeacherId(teacherCourse.getTeacherID());
+        Courses courses1 = coursesMapper.selectCoursesById(teachers.getId());
         Courses courses = new Courses();
-        courses.setId(teachersMapper.selectTeachersByTeacherId(teacherCourse.getTeacherID()).getId());
-        courses.setCourseID(teacherCourse.getCourseID());
-        courses.setCourseName(teacherCourse.getCourseName());
-        courses.setTeacherID(teacherCourse.getTeacherID());
-        courses.setDepartmentOffering(teachersMapper.selectTeachersByTeacherId(teacherCourse.getTeacherID()).getDepartment());
-        coursesMapper.updateCourses(courses);
-
+        if (Objects.isNull(courses1)) {
+            courses.setCourseID(teacherCourse.getCourseID());
+            courses.setCourseName(teacherCourse.getCourseName());
+            courses.setTeacherID(teachers.getTeacherID());
+            courses.setDepartmentOffering(teachers.getDepartment());
+            coursesMapper.insertCourses(courses);
+        } else {
+            // 修改教师授课（TeacherCourse 表）信息 并修改课程（Courses 表）信息
+            courses.setId(teachers.getId());
+            courses.setCourseID(teacherCourse.getCourseID());
+            courses.setCourseName(teacherCourse.getCourseName());
+            courses.setTeacherID(teacherCourse.getTeacherID());
+            courses.setDepartmentOffering(teachers.getDepartment());
+            coursesMapper.updateCourses(courses);
+        }
         return teacherCourseMapper.updateTeacherCourse(teacherCourse);
     }
 }

@@ -6,7 +6,7 @@
 
     <select id="selectAllStudentCourse" resultType="studentCourse">
         select *
-        from StudentCourse
+        from studentcourse
     </select>
 
     <select id="selectStudentCourseById" resultType="studentCourse" parameterType="int">
@@ -17,36 +17,36 @@
 
     <select id="selectStudentCourseByStudentId" resultType="studentCourse" parameterType="int">
         select *
-        from StudentCourse
+        from studentcourse
         WHERE StudentID = #{StudentID}
     </select>
 
     <select id="searchStudentCourseByStudentId" resultType="studentCourse" parameterType="int">
         SELECT *
-        FROM StudentCourse
+        FROM studentcourse
         WHERE StudentID like #{StudentID}
     </select>
 
     <select id="searchStudentCourseByStudentName" resultType="studentCourse" parameterType="String">
         SELECT *
-        FROM StudentCourse
+        FROM studentcourse
         WHERE StudentName LIKE CONCAT('%', #{name}, '%')
     </select>
 
     <select id="searchStudentCourseByCourseName" resultType="studentCourse" parameterType="String">
         SELECT *
-        FROM StudentCourse
+        FROM studentcourse
         WHERE CourseName LIKE CONCAT('%', #{name}, '%')
     </select>
 
     <delete id="deleteStudentCourseById" parameterType="int">
         DELETE
-        FROM StudentCourse
+        FROM studentcourse
         WHERE id = #{id}
     </delete>
 
     <insert id="insertStudentCourse" parameterType="studentCourse">
-        INSERT INTO StudentCourse
+        INSERT INTO studentcourse
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id!=0">id,</if>
             <if test="StudentID!=0">StudentID,</if>
@@ -66,7 +66,7 @@
     </insert>
 
     <update id="updateStudentCourse" parameterType="studentCourse">
-        UPDATE StudentCourse
+        UPDATE studentcourse
         <set>
             <if test="StudentID!=0">StudentID=#{StudentID},</if>
             <if test="CourseID!=0">CourseID=#{CourseID},</if>

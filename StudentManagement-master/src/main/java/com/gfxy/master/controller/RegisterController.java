@@ -3,6 +3,8 @@ package com.gfxy.master.controller;
 import com.gfxy.master.service.RegisterService;
 import com.gfxy.master.vo.Register;
 import com.gfxy.master.vo.ResponseResult;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
  * 学生没有权限
  * 只有教师才可以注册 学生 或者 教师
  */
+@Tag(name = "RegisterController", description = "注册管理")
 @RestController
 public class RegisterController {
 
@@ -30,10 +33,10 @@ public class RegisterController {
      * @param register
      * @return
      */
+    @Operation(summary = "注册学生", description = "注册学生")
     @PostMapping("/admin/registerStudents")
     @PreAuthorize("hasAnyAuthority('system:dept:list')")
     public ResponseResult registerStudents(@RequestBody Register register) {
-
         System.out.println(register);
 
         // 学生的用户类型为 1（普通用户）
@@ -50,8 +53,9 @@ public class RegisterController {
             return new ResponseResult(200, "注册成功");
 
         } else if (registerService.insertStudents(register) == 2) {
-
             return new ResponseResult(300, "注册失败，该学生编号已被注册");
+        } else if (registerService.insertStudents(register) == 3) {
+            return new ResponseResult(300, "注册失败，该用户已被注册");
         }
         return new ResponseResult(300, "注册失败，该学生用户名已被注册");
     }
@@ -62,6 +66,7 @@ public class RegisterController {
      * @param register
      * @return
      */
+    @Operation(summary = "注册教师", description = "注册教师")
     @PostMapping("/admin/registerTeachers")
     @PreAuthorize("hasAnyAuthority('system:dept:list')")
     public ResponseResult registerTeachers(@RequestBody Register register) {

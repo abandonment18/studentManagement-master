@@ -13,9 +13,6 @@ import java.util.stream.Collectors;
 
 /**
  * 登录字段
- * 该 up 主的springSecurity
- *
- * @Author 三更  B站： https://space.bilibili.com/663528522
  */
 @Data
 @NoArgsConstructor

@@ -12,6 +12,12 @@
         where username = #{username}
     </select>
 
+    <select id="selectInfoById" resultMap="SysUserMap">
+        select *
+        from sys_user
+        where id = #{id}
+    </select>
+
     <resultMap id="SysUserMap" type="user">
         <id property="id" column="id"></id>
         <result property="username" column="UserName"></result>
@@ -22,7 +28,7 @@
         <result property="phoneNumber" column="PhoneNumber"></result>
         <result property="sex" column="Gender"></result>
         <result property="avatar" column="Avatar"></result>
-        <result property="userType" column="user_type"></result>
+        <result property="userType" column="UserType"></result>
         <result property="createBy" column="create_by"></result>
         <result property="createTime" column="create_time"></result>
         <result property="updateBy" column="update_by"></result>
@@ -30,4 +36,25 @@
         <result property="delFlag" column="del_flag"></result>
     </resultMap>
 
+    <select id="selectAllUser" resultMap="SysUserMap">
+        SELECT id, NickName, Gender, UserName, UserType, Email, PhoneNumber
+        FROM sys_user
+    </select>
+
+    <delete id="deleteUserById" parameterType="int">
+        DELETE
+        FROM sys_user
+        WHERE id = #{id}
+    </delete>
+
+    <update id="updateUser" parameterType="user">
+        UPDATE sys_user
+        <set>
+            <if test="sex!=null">gender=#{sex},</if>
+            <if test="nickName!=null">nickName=#{nickName},</if>
+            <if test="email!=null">email=#{email},</if>
+            <if test="phoneNumber!=null">phoneNumber=#{phoneNumber},</if>
+        </set>
+        WHERE id = #{id}
+    </update>
 </mapper>

@@ -16,6 +16,13 @@ public interface CoursesMapper {
     List<Courses> selectAllCourses();
 
     /**
+     * 查询学生选的课程的数量
+     *
+     * @return
+     */
+    List<Courses> selectStudentCoursesNameCountByCourseName();
+
+    /**
      * 根据 CoursesId 查询
      *
      * @param CoursesId

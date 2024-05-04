@@ -9,12 +9,15 @@ import com.gfxy.master.vo.TeacherCourse;
 import com.gfxy.master.vo.Teachers;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Tag(name = "TeacherCourseController", description = "教师授课管理")
 @RestController
 public class TeacherCourseController {
 
@@ -35,6 +38,7 @@ public class TeacherCourseController {
      * @param pageSize:每页要显示几条数据,默认为 5
      * @return
      */
+    @Operation(summary = "分页查询教师授课", description = "分页查询教师授课")
     @GetMapping("/admin/teacherCourse")
     @PreAuthorize("hasAnyAuthority('system:dept:list','system:student:list')")
     public ResponseResult selectByPage(@RequestParam(defaultValue = "1") Integer pageNum, @RequestParam(defaultValue = "5") Integer pageSize) {
@@ -61,7 +65,8 @@ public class TeacherCourseController {
      * @param teacherId
      * @return
      */
-    @PostMapping("/admin/searchTeacherCourseByTeachersId")
+    @Operation(summary = "根据 TeachersId 进行搜索匹配", description = "根据 TeachersId 进行搜索匹配")
+    @GetMapping("/admin/searchTeacherCourseByTeachersId")
     @PreAuthorize("hasAnyAuthority('system:dept:list','system:student:list')")
     public ResponseResult searchTeacherCourseByTeachersId(@RequestParam("teachersId") int teacherId) {
 
@@ -74,7 +79,8 @@ public class TeacherCourseController {
      * @param name
      * @return
      */
-    @PostMapping("/admin/searchTeacherCourseByCourseName")
+    @Operation(summary = "根据 课程 name 进行模糊搜索", description = "根据 课程 name 进行模糊搜索")
+    @GetMapping("/admin/searchTeacherCourseByCourseName")
     @PreAuthorize("hasAnyAuthority('system:dept:list','system:student:list')")
     public ResponseResult searchTeacherCourseByCourseName(@RequestParam("name") String name) {
 
@@ -87,7 +93,8 @@ public class TeacherCourseController {
      * @param name
      * @return
      */
-    @PostMapping("/admin/searchTeacherCourseByTeacherName")
+    @Operation(summary = "根据 教师 name  进行模糊搜索", description = "根据 教师 name  进行模糊搜索")
+    @GetMapping("/admin/searchTeacherCourseByTeacherName")
     @PreAuthorize("hasAnyAuthority('system:dept:list','system:student:list')")
     public ResponseResult searchTeacherCourseByTeacherName(@RequestParam("name") String name) {
 
@@ -100,7 +107,8 @@ public class TeacherCourseController {
      * @param id
      * @return
      */
-    @PostMapping("/admin/deleteTeacherCourseById")
+    @Operation(summary = "根据 id 删除", description = "根据 id 删除")
+    @GetMapping("/admin/deleteTeacherCourseById")
     @PreAuthorize("hasAuthority('system:dept:list')")
     public ResponseResult deleteTeacherCourseById(@RequestParam("id") int id) {
 
@@ -113,6 +121,7 @@ public class TeacherCourseController {
      * @param teacherCourse
      * @return
      */
+    @Operation(summary = "新增教师授课", description = "新增教师授课")
     @PostMapping("/admin/insertTeacherCourse")
     @PreAuthorize("hasAuthority('system:dept:list')")
     public ResponseResult insertTeacherCourse(@RequestBody TeacherCourse teacherCourse) {
@@ -139,6 +148,7 @@ public class TeacherCourseController {
      * @param teacherCourse
      * @return
      */
+    @Operation(summary = "修改教师授课", description = "修改教师授课")
     @PostMapping("/admin/updateTeacherCourse")
     @PreAuthorize("hasAuthority('system:dept:list')")
     public ResponseResult updateTeacherCourse(@RequestBody TeacherCourse teacherCourse) {

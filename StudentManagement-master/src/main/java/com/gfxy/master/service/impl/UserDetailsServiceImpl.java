@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
@@ -17,6 +18,7 @@ import java.util.Objects;
  * 重写 security 中自带的根据 用户对应的权限信息 在数据库中查找
  */
 @Service
+@Transactional
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
@@ -38,7 +40,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         if (Objects.isNull(user)) {
             throw new RuntimeException("用户名或密码错误");
         }
-
 
         // 写固定 权限信息
 //        List<String> list = new ArrayList<>(Arrays.asList("test", "admin"));

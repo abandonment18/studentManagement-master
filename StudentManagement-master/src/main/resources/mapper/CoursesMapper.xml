@@ -6,26 +6,33 @@
 
     <!--    查询所有课程-->
     <select id="selectAllCourses" resultType="courses">
-        select *
-        from Courses
+        select id, CourseID, CourseName, DepartmentOffering, TeacherID
+        from courses
+    </select>
+
+    <select id="selectStudentCoursesNameCountByCourseName" resultType="courses">
+        SELECT courses.CourseID, COUNT(studentcourse.CourseName) AS Count
+        FROM studentcourse, courses
+        WHERE studentcourse.CourseName IN (courses.CourseName)
+        GROUP BY studentcourse.CourseName, courses.CourseID
     </select>
 
     <select id="selectCoursesByCoursesId" parameterType="int" resultType="courses">
         SELECT *
-        FROM Courses
+        FROM courses
         WHERE CourseID = #{CourseID}
     </select>
 
     <select id="selectCoursesById" resultType="courses">
         SELECT *
-        FROM Courses
+        FROM courses
         WHERE id = #{id}
     </select>
 
     <!--    根据课程编号搜索-->
     <select id="searchByCoursesId" resultType="courses" parameterType="int">
         SELECT *
-        FROM Courses
+        FROM courses
         WHERE CourseID like #{CourseID}
     </select>
 
@@ -33,13 +40,13 @@
     <!--    根据id删除-->
     <delete id="deleteCoursesById" parameterType="int">
         DELETE
-        FROM Courses
+        FROM courses
         WHERE id = #{id}
     </delete>
 
     <!--    插入-->
     <insert id="insertCourses" parameterType="courses">
-        INSERT INTO Courses
+        INSERT INTO courses
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id!=0">id,</if>
             <if test="CourseName!=null">CourseName,</if>
@@ -58,7 +65,7 @@
 
     <!--    修改-->
     <update id="updateCourses" parameterType="courses">
-        UPDATE Courses
+        UPDATE courses
         <set>
             <if test="CourseName!=null">CourseName=#{CourseName},</if>
             <if test="DepartmentOffering!=null">DepartmentOffering=#{DepartmentOffering},</if>

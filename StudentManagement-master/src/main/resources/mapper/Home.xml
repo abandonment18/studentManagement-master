@@ -7,7 +7,32 @@
     <select id="selectCourseChooseNumber" resultType="studentCourse">
         select s.CourseName, COUNT(s.CourseName) Number
         from studentcourse s
-        GROUP BY s.CourseID
+        WHERE s.CourseName IS NOT NULL
+        GROUP BY s.CourseName
+    </select>
+
+    <resultMap id="myEmploymentRankings" type="EmploymentRankings">
+        <id property="id" column="id"/>
+        <result property="major" column="major"/>
+        <result property="monthlyIncome" column="monthly_income"/>
+        <result property="rank" column="rank"/>
+    </resultMap>
+    <select id="selectEmploymentRankings" resultMap="myEmploymentRankings">
+        SELECT *
+        FROM graduate_employment
+    </select>
+
+    <resultMap id="myProgrammingLanguageRankings" type="ProgrammingLanguageRankings">
+        <id property="id" column="id"/>
+        <result property="rank" column="rank"/>
+        <result property="annualStar" column="annual_star"/>
+        <result property="comparisonLastMonth" column="comparison_last_month"/>
+        <result property="language" column="language"/>
+        <result property="popularity" column="popularity"/>
+    </resultMap>
+    <select id="selectProgrammingLanguageRankings" resultMap="myProgrammingLanguageRankings">
+        SELECT *
+        FROM programming_languages LIMIT 10
     </select>
 
 </mapper>

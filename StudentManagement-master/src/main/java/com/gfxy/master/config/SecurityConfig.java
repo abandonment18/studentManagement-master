@@ -22,25 +22,22 @@ import org.springframework.security.web.authentication.logout.LogoutSuccessHandl
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
+    // 校验token
+    @Autowired
+    private JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter;
+    // 校验认证失败
+    @Autowired
+    private AuthenticationEntryPoint authenticationEntryPoint;
+    // 校验权限信息
+    @Autowired
+    private AccessDeniedHandler accessDeniedHandler;
+    @Autowired
+    private LogoutSuccessHandler logoutSuccessHandler;
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
-    // 校验token
-    @Autowired
-    private JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter;
-
-    // 校验认证失败
-    @Autowired
-    private AuthenticationEntryPoint authenticationEntryPoint;
-
-    // 校验权限信息
-    @Autowired
-    private AccessDeniedHandler accessDeniedHandler;
-
-    @Autowired
-    private LogoutSuccessHandler logoutSuccessHandler;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -53,6 +50,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 // 对于登录接口 .anonymous() 允许匿名访问(未登录时可以访问，登陆后无法访问) .permitAll() 不管有没有登录都可以访问，多用于静态资源
                 .antMatchers("/user/login").anonymous()
+                .antMatchers("/personChat/**").permitAll()
+                .antMatchers("/v3/api-docs/**").permitAll()
+                .antMatchers("/swagger-ui/**").permitAll()
 //                .antMatchers("/hello").hasAuthority("system:dept:list") // 基于配置权限控制
                 // 除上面外的所有请求全部需要鉴权认证
                 .anyRequest().authenticated();
@@ -78,4 +78,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
+
+    /**
+     * 如果上面的放行没有 试一下这个
+     * @param webSecurity
+     */
+    //忽略websocket拦截
+//    @Override
+//    public void configure(WebSecurity webSecurity){
+//        webSecurity.ignoring().antMatchers(
+//                "/personChat/**"
+//        );
+//    }
 }

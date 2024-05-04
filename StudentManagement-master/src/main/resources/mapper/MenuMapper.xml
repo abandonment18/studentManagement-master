@@ -15,4 +15,43 @@
           AND r.`status` = 0
           AND m.`status` = 0
     </select>
+
+    <!--    association 1对1 多对1-->
+    <!--    collection 1对多-->
+    <resultMap id="myMenu" type="Menu">
+        <id property="id" column="id"/>
+        <result property="parentId" column="parent_id"/>
+        <result property="menuName" column="menu_name"/>
+        <result property="path" column="path"/>
+        <result property="icon" column="icon"/>
+    </resultMap>
+
+    <resultMap id="myChildMenu" type="childMenu">
+        <id property="id" column="id"/>
+        <result property="parentId" column="parent_id"/>
+        <result property="menuName" column="menu_name"/>
+        <result property="path" column="path"/>
+        <result property="icon" column="icon"/>
+    </resultMap>
+
+    <select id="selectPrentMenu" resultMap="myMenu" parameterType="java.lang.String">
+        SELECT `id`, `parent_id`, `menu_name`, `path`, `icon`
+        FROM `sys_menu`
+        WHERE perms = #{perms}
+          AND `parent_id` = 0
+    </select>
+
+    <select id="selectChildMenu" resultMap="myChildMenu" parameterType="java.lang.String">
+        SELECT `id`, `parent_id`, `menu_name`, `path`, `icon`
+        FROM `sys_menu`
+        WHERE perms = #{perms}
+          AND `parent_id` != -1  AND `parent_id` != 0
+    </select>
+
+    <select id="selectMenuChildById" resultMap="myChildMenu" parameterType="long">
+        SELECT `id`, `parent_id`, `menu_name`, `path`, `icon`
+        FROM `sys_menu`
+        WHERE `parent_id` = #{id}
+          AND `parent_id` != -1
+    </select>
 </mapper>

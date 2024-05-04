@@ -5,16 +5,17 @@ import com.gfxy.master.mapper.TeacherCourseMapper;
 import com.gfxy.master.mapper.TeachersMapper;
 import com.gfxy.master.mapper.UnitsMapper;
 import com.gfxy.master.service.TeachersService;
-import com.gfxy.master.vo.Courses;
 import com.gfxy.master.vo.TeacherCourse;
 import com.gfxy.master.vo.Teachers;
 import com.gfxy.master.vo.Units;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@Transactional
 public class TeachersServiceImpl implements TeachersService {
 
     @Autowired
@@ -68,15 +69,15 @@ public class TeachersServiceImpl implements TeachersService {
         Teachers teachers1 = teachersMapper.selectTeachersByTeacherId(teachers.getTeacherID());
 
         // 判断 课程表中 是否有相同的 id 防止报错
-        if (coursesMapper.selectCoursesById(teachers1.getId()) == null || coursesMapper.selectCoursesByCoursesId(teachers1.getId()).getId() != teachers1.getId()) {
-            Courses courses = new Courses();
-            courses.setId(teachers1.getId());
-//        courses.setDepartmentOffering(teachers1.getDepartment());
-//        courses.setTeacherID(teachers1.getTeacherID());
-            coursesMapper.insertCourses(courses);
-        }
+//        if (coursesMapper.selectCoursesById(teachers1.getId()) == null || coursesMapper.selectCoursesByCoursesId(teachers1.getId()).getId() != teachers1.getId()) {
+//            Courses courses = new Courses();
+//            courses.setId(teachers1.getId());
+////        courses.setDepartmentOffering(teachers1.getDepartment());
+////        courses.setTeacherID(teachers1.getTeacherID());
+//            coursesMapper.insertCourses(courses);
+//        }
 
-
+        System.out.println(">>>>>>>>>>>>>>>>>" + teachers1);
         // 并以相同的信息往教师单位（Units 表）中添加
         Units units = new Units();
         units.setId(teachers1.getId());
@@ -98,11 +99,11 @@ public class TeachersServiceImpl implements TeachersService {
     public int updateTeachers(Teachers teachers) {
 
         // 修改教师 所对应的课程（Courses 表）的id
-        Courses courses = new Courses();
-        courses.setId(teachers.getId());
+//        Courses courses = new Courses();
+//        courses.setId(teachers.getId());
 //        courses.setDepartmentOffering(teachers.getDepartment());
 //        courses.setTeacherID(teachers.getTeacherID());
-        coursesMapper.updateCourses(courses);
+//        coursesMapper.updateCourses(courses);
 
         // 修改相同教师单位（Units 表）的信息
         Units units = new Units();

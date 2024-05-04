@@ -1,5 +1,6 @@
 package com.gfxy.master.vo;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -30,6 +31,21 @@ public class Register {
      * 姓名
      */
     private String Name;
+
+    /**
+     * 昵称
+     */
+    private String NickName;
+
+    /**
+     * 邮箱
+     */
+    private String Email;
+
+    /**
+     * 电话
+     */
+    private String PhoneNumber;
 
     /**
      * 性别

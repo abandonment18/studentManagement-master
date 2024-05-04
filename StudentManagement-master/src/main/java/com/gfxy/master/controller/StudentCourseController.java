@@ -9,12 +9,15 @@ import com.gfxy.master.vo.StudentCourse;
 import com.gfxy.master.vo.Students;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Tag(name = "StudentCourseController", description = "学生选课管理")
 @RestController
 public class StudentCourseController {
 
@@ -35,6 +38,7 @@ public class StudentCourseController {
      * @param pageSize:每页要显示几条数据,默认为 5
      * @return
      */
+    @Operation(summary = "分页查询学生选课", description = "分页查询学生选课")
     @GetMapping("/admin/studentCourse")
     @PreAuthorize("hasAnyAuthority('system:dept:list','system:student:list')")
     public ResponseResult selectByPage(@RequestParam(defaultValue = "1") Integer pageNum, @RequestParam(defaultValue = "5") Integer pageSize) {
@@ -55,6 +59,15 @@ public class StudentCourseController {
         return new ResponseResult(200, "查询成功", pageInfo);
     }
 
+    /**
+     * 根据学生id查询学生
+     *
+     * @param id
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
+    @Operation(summary = "根据学生id查询学生", description = "根据学生id查询学生")
     @GetMapping("/admin/selectStudentCourseInfoByStudentId")
     @PreAuthorize("hasAnyAuthority('system:dept:list','system:student:list')")
     public ResponseResult selectStudentCourseInfoByStudentId(@RequestParam Integer id, @RequestParam(defaultValue = "1") Integer pageNum, @RequestParam(defaultValue = "5") Integer pageSize) {
@@ -80,6 +93,7 @@ public class StudentCourseController {
      *
      * @return
      */
+    @Operation(summary = "查询所有课程", description = "查询所有课程")
     @GetMapping("/admin/selectAllCourseInfo")
     @PreAuthorize("hasAnyAuthority('system:dept:list','system:student:list')")
     public ResponseResult selectAllCourseInfo() {
@@ -94,7 +108,8 @@ public class StudentCourseController {
      * @param studentId
      * @return
      */
-    @PostMapping("/admin/searchStudentCourseByStudentId")
+    @Operation(summary = "根据 studentId 进行搜索匹配", description = "根据 studentId 进行搜索匹配")
+    @GetMapping("/admin/searchStudentCourseByStudentId")
     @PreAuthorize("hasAnyAuthority('system:dept:list','system:student:list')")
     public ResponseResult searchStudentCourseByStudentId(@RequestParam("studentId") int studentId) {
 
@@ -107,7 +122,8 @@ public class StudentCourseController {
      * @param name
      * @return
      */
-    @PostMapping("/admin/searchStudentCourseByCourseName")
+    @Operation(summary = "根据 课程 name 进行模糊搜索", description = "根据 课程 name 进行模糊搜索")
+    @GetMapping("/admin/searchStudentCourseByCourseName")
     @PreAuthorize("hasAnyAuthority('system:dept:list','system:student:list')")
     public ResponseResult searchStudentCourseByCourseName(@RequestParam("name") String name) {
 
@@ -120,7 +136,8 @@ public class StudentCourseController {
      * @param name
      * @return
      */
-    @PostMapping("/admin/searchStudentCourseByStudentName")
+    @Operation(summary = "根据 学生 name  进行模糊搜索", description = "根据 学生 name  进行模糊搜索")
+    @GetMapping("/admin/searchStudentCourseByStudentName")
     @PreAuthorize("hasAnyAuthority('system:dept:list','system:student:list')")
     public ResponseResult searchStudentCourseByStudentName(@RequestParam("name") String name) {
 
@@ -133,7 +150,8 @@ public class StudentCourseController {
      * @param id
      * @return
      */
-    @PostMapping("/admin/deleteStudentCourseById")
+    @Operation(summary = "根据 id 删除", description = "根据 id 删除")
+    @GetMapping("/admin/deleteStudentCourseById")
     @PreAuthorize("hasAnyAuthority('system:dept:list','system:student:list')")
     public ResponseResult deleteStudentCourseById(@RequestParam("id") int id) {
 
@@ -146,10 +164,10 @@ public class StudentCourseController {
      * @param studentCourse
      * @return
      */
+    @Operation(summary = "新增学生选课", description = "新增学生选课")
     @PostMapping("/admin/insertStudentCourse")
     @PreAuthorize("hasAnyAuthority('system:dept:list','system:student:list')")
     public ResponseResult insertStudentCourse(@RequestBody StudentCourse studentCourse) {
-
         Courses courses = coursesService.selectCoursesByCoursesId(studentCourse.getCourseID());
         studentCourse.setCourseName(courses.getCourseName());
         Students students = studentsService.selectStudentsByStudentId(studentCourse.getStudentID());
@@ -165,6 +183,8 @@ public class StudentCourseController {
             return new ResponseResult(300, "增加失败，没有该学生名称！");
         } else if (students.getStudentID() != studentCourse.getStudentID()) {
             return new ResponseResult(300, "增加失败，没有该学生编号！");
+        } else if (!studentCourseService.selectStudentCourseById(studentCourse.getCourseID()).isEmpty()) {
+            return new ResponseResult(300, "增加失败，该课程已选！");
         }
         return new ResponseResult(200, "增加成功", studentCourseService.insertStudentCourse(studentCourse));
     }
@@ -176,6 +196,7 @@ public class StudentCourseController {
      * @param studentCourse
      * @return
      */
+    @Operation(summary = "修改学生选课", description = "修改学生选课")
     @PostMapping("/admin/updateStudentCourse")
     @PreAuthorize("hasAnyAuthority('system:dept:list','system:student:list')")
     public ResponseResult updateStudentCourse(@RequestBody StudentCourse studentCourse) {

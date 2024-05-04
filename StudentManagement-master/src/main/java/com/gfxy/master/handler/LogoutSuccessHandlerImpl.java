@@ -26,7 +26,6 @@ public class LogoutSuccessHandlerImpl implements LogoutSuccessHandler {
     public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
 
         String token = request.getHeader("Authorization").substring(7);
-
         if (token != null) {
             try {
                 Claims claims = JwtUtil.parseJWT(token);

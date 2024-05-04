@@ -12,12 +12,15 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 @Service
+@Transactional
 public class LoginServiceImpl implements LoginService {
 
 
@@ -30,9 +33,8 @@ public class LoginServiceImpl implements LoginService {
     @Override
     public ResponseResult login(User user) {
         // AuthenticationManager 的 authenticate 方法进行用户认证
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword());
+        Authentication authenticationToken = new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword());
         Authentication authenticate = authenticationManager.authenticate(authenticationToken);
-
         // 如果认证没通过，给出对应的提示
         if (Objects.isNull(authenticate)) {
             throw new RuntimeException("登录失败");
@@ -47,7 +49,7 @@ public class LoginServiceImpl implements LoginService {
         map.put("token", jwt);
 
         // 把完整的用户信息存入 redis userid 作为 key token:jwt
-        redisCache.setCacheObject("login:" + userid, loginUser);
+        redisCache.setCacheObject("login:" + userid, loginUser, 30, TimeUnit.MINUTES);
 
         return new ResponseResult(200, "登陆成功", map);
     }

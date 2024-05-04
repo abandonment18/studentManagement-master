@@ -7,6 +7,8 @@ import com.gfxy.master.vo.ResponseResult;
 import com.gfxy.master.vo.Teachers;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +19,7 @@ import java.util.List;
  * AllUser.vue 中列表的删改
  * 两表 user user_details
  */
+@Tag(name = "CoursesController", description = "课程控制器")
 @RestController
 public class CoursesController {
 
@@ -34,6 +37,7 @@ public class CoursesController {
      * @param pageSize:每页要显示几条数据,默认为 5
      * @return
      */
+    @Operation(summary = "分页查询课程", description = "分页查询课程")
     @GetMapping("/admin/courses")
     @PreAuthorize("hasAnyAuthority('system:dept:list','system:student:list')")
     public ResponseResult selectByPage(@RequestParam(defaultValue = "1") Integer pageNum, @RequestParam(defaultValue = "5") Integer pageSize) {
@@ -59,6 +63,7 @@ public class CoursesController {
      *
      * @return
      */
+    @Operation(summary = "查询所有课程", description = "查询所有课程")
     @GetMapping("/admin/selectAllCoursesInfoList")
     @PreAuthorize("hasAnyAuthority('system:dept:list','system:student:list')")
     public ResponseResult selectAllCoursesInfoList() {
@@ -72,7 +77,8 @@ public class CoursesController {
      * @param CoursesId
      * @return
      */
-    @PostMapping("/admin/searchByCoursesId")
+    @Operation(summary = "根据 CoursesId 进行搜索", description = "根据 CoursesId 进行搜索")
+    @GetMapping("/admin/searchByCoursesId")
     @PreAuthorize("hasAnyAuthority('system:dept:list','system:student:list')")
     public ResponseResult searchByCoursesId(@RequestParam("CoursesId") int CoursesId) {
 
@@ -85,7 +91,8 @@ public class CoursesController {
      * @param id
      * @return
      */
-    @PostMapping("/admin/deleteCoursesById")
+    @Operation(summary = "根据 id 删除", description = "根据 id 删除")
+    @GetMapping("/admin/deleteCoursesById")
     @PreAuthorize("hasAuthority('system:dept:list')")
     public ResponseResult deleteCoursesById(@RequestParam("id") int id) {
 
@@ -98,6 +105,7 @@ public class CoursesController {
      * @param courses
      * @return
      */
+    @Operation(summary = "新增课程", description = "新增课程")
     @PostMapping("/admin/insertCourses")
     @PreAuthorize("hasAuthority('system:dept:list')")
     public ResponseResult insertCourses(@RequestBody Courses courses) {
@@ -123,6 +131,7 @@ public class CoursesController {
      * @param courses
      * @return
      */
+    @Operation(summary = "修改课程", description = "修改课程")
     @PostMapping("/admin/updateCourses")
     @PreAuthorize("hasAuthority('system:dept:list')")
     public ResponseResult updateCourses(@RequestBody Courses courses) {

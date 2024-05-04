@@ -5,8 +5,10 @@ import com.gfxy.master.service.PersonalInfoService;
 import com.gfxy.master.vo.PersonalInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 public class PersonalInfoServiceImpl implements PersonalInfoService {
 
     @Autowired

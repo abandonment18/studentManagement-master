@@ -7,10 +7,12 @@ import com.gfxy.master.vo.StudentCourse;
 import com.gfxy.master.vo.Students;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@Transactional
 public class StudentsServiceImpl implements StudentsService {
 
     @Autowired
@@ -72,5 +74,10 @@ public class StudentsServiceImpl implements StudentsService {
         studentCourse.setStudentName(students.getName());
         studentCourseMapper.updateStudentCourse(studentCourse);
         return studentsMapper.updateStudents(students);
+    }
+
+    @Override
+    public int selectStudentCount() {
+        return studentsMapper.selectStudentCount();
     }
 }

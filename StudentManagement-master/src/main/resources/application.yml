@@ -20,3 +20,19 @@ spring:
 #  freemarker:
 #    cache: false    #页面不加载缓存，修改即时生效
 debug: false
+
+springdoc:
+  swagger-ui:
+    # 修改Swagger UI路径
+    path: /swagger-ui.html
+    # 开启Swagger UI界面
+    enabled: true
+  api-docs:
+    # 修改api-docs路径
+    path: /v3/api-docs
+    # 开启api-docs
+    enabled: true
+  # 配置需要生成接口文档的扫描包
+  packages-to-scan: com.gfxy.master.controller
+  # 配置需要生成接口文档的接口路径
+  paths-to-match: /**
